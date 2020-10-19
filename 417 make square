@@ -1,0 +1,38 @@
+// https://leetcode.com/problems/matchsticks-to-square
+class Solution {
+    public boolean makesquare(int[] nums) {
+        if(nums == null || nums.length < 4) {
+            return false;
+        }
+        
+        int totalSum = 0;
+        
+        for(int num : nums) {
+            totalSum += num;
+        }
+        
+        if(totalSum % 4 != 0) {
+            return false;
+        }
+        
+        int targetSum = totalSum / 4;
+        int[] sums = new int[4];
+        return dfs(nums, targetSum, 0, sums);
+    }
+    
+    private boolean dfs(int[] nums, int targetSum, int i, int[] sums) {
+        if(i == nums.length) {
+            if(sums[0] == targetSum && sums[1] == targetSum && sums[2] == targetSum)            {
+                return true;
+            }
+            return false;
+        }
+        
+        for(int j = 0; j < 4; j++) {
+            sums[j] += nums[i];
+            if(sums[j] <= targetSum && dfs(nums, targetSum, i + 1, sums)) return true;
+            sums[j] -= nums[i];
+        }
+        return false;
+    }
+}
