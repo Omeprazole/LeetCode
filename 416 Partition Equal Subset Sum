@@ -1,0 +1,38 @@
+class Solution {
+    public boolean canPartition(int[] nums) {
+        if(nums == null || nums.length <= 1){
+            return false;
+        }
+        
+        int totalSum = 0;
+        for(int num : nums) {
+            totalSum += num;
+        }
+        
+        if(totalSum % 2 == 1) {
+            return false;
+        }
+        
+        int targetSum = totalSum / 2;
+        Boolean[][] cache = new Boolean[nums.length + 1][targetSum + 1];
+        return bfs(targetSum, nums, 0, nums.length, cache);
+    }
+    
+    private boolean bfs(int targetSum, int[] nums, int i, int len, Boolean[][] cache) {
+        if(targetSum == 0) {
+            return true;
+        }
+        
+        if(i >= len || targetSum < 0) {
+            return false;
+        }
+        
+        if(cache[i][targetSum] != null) {
+            return cache[i][targetSum];
+        }
+        
+        boolean result = bfs(targetSum, nums, i + 1, len, cache) || bfs(targetSum - nums[i], nums, i + 1, len, cache);
+        cache[i][targetSum] = result;
+        return result;
+    }
+}
