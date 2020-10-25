@@ -1,0 +1,27 @@
+class Solution {
+    public boolean splitArraySameAverage(int[] A) {
+        if(A.length < 2) {
+            return false;
+        }
+        
+        int sum = 0;
+        for(int each : A) {
+            sum += each;
+        }
+        Arrays.sort(A);
+        return dfs(A, sum, 0, 0, 0);
+    }
+    
+    private boolean dfs(int[] A, int sum, int level, int curSum, int count) {
+        if(count != 0 && count != A.length && A.length * curSum == sum * count) {
+            return true;
+        }
+        
+        if(level == A.length) {
+            return false;
+        }
+        
+        return dfs(A, sum, level + 1, curSum + A[level], count + 1) || dfs(A, sum, level + 1, curSum, count);
+        
+    }
+}
