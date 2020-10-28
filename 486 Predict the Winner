@@ -1,0 +1,15 @@
+class Solution {
+    public boolean PredictTheWinner(int[] nums) {
+        return dfs(nums, 0, nums.length - 1, 1) >= 0;
+    }
+    
+    private int dfs(int[] nums, int left, int right, int turn) {
+        if(left == right) {
+            return turn * nums[left];
+        }
+        
+        int a = turn * nums[left] + dfs(nums, left + 1, right, -turn);
+        int b = turn * nums[right] + dfs(nums, left, right - 1, -turn);
+        return turn * Math.max(turn * a, turn * b);
+    }
+}
